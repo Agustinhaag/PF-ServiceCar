@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { validarLogin } from "@/helpers/validateForms";
 import "../../styles/forms.css";
@@ -7,18 +7,23 @@ import ContainerInput from "./ContainerInput";
 import { useRouter } from "next/navigation";
 import { handleSubmit } from "@/helpers/fetchForms";
 import PATHROUTES from "@/helpers/PathRoutes";
-import { FcGoogle } from "react-icons/fc";
-import { IUserLogin, UserSessionProps } from "@/helpers/types/types";
-import { useAuth } from "@/context/AuthContext";
+import { IUserLogin, TokenProps } from "@/helpers/types/types";
 import ButtonLogin from "./ButtonLogin";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, setUserData } from "@/redux/userSlice";
+import { fetchDataUser } from "@/helpers/fetchDataUser";
+import { useSession } from "next-auth/react";
+import ButtonGoogle from "./ButtonGoogle";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
-  const { dataUser, setDataUser } = useAuth();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const secret = process.env.NEXT_PUBLIC_SECRET;
   const url = process.env.NEXT_PUBLIC_URL;
-
+  const dataUser = useSelector((state: any) => state.user.user);
+  const { status } = useSession();
   const handleSubmitLogin = async (values: IUserLogin) => {
     setLoading(true);
 
@@ -33,15 +38,14 @@ const LoginForm: React.FC = () => {
       });
 
       if (response?.data.success === "Autenticación exitosa") {
-        const userData: UserSessionProps = {
-          // id: response.data.user.id,
-          // name: response.data.user.name,
-          // email: response.data.user.email,
-          // address: response.data.user.address,
+        const userData: TokenProps = {
           token: response.data.token,
         };
 
-        await setDataUser(userData);
+        dispatch(setToken(userData.token));
+        fetchDataUser(userData.token, secret, url).then((res) => {
+          dispatch(setUserData(res));
+        });
         router.push(PATHROUTES.LANDING);
       } else {
         throw new Error("Error al loguear un usuario");
@@ -50,9 +54,15 @@ const LoginForm: React.FC = () => {
       console.log(error);
       setError("Error al iniciar sesión. Inténtelo nuevamente.");
     } finally {
-      setLoading(false); // Oculta el spinner
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (dataUser && status === "authenticated") {
+      router.push(PATHROUTES.LANDING);
+    }
+  }, [dataUser, status]);
 
   return (
     <div className="cont-form pt-3">
@@ -92,22 +102,8 @@ const LoginForm: React.FC = () => {
               <p className="text-red-600 text-center mb-2 w-full">¡{error}!</p>
             )}
             <div className="cont-btn flex flex-col w-full justify-center mb-5">
-<<<<<<< HEAD
-              <button
-                type="submit"
-                className=" bg-custom-red  text-custom-white  rounded-md md:text-base md:py-2 md:px-5 hover:cursor-pointer hover:bg-red-600 hover:text-custom-white text-sm py-1.5 px-4"
-              >
-                Ingresar
-              </button>
-=======
-              <ButtonLogin loading={loading} />
->>>>>>> 5f782a3549ce3ef059f1b60b3dc39f00024feebb
-              <button className="border flex items-center mt-2 gap-1 justify-center border-custom-red rounded-md md:text-base md:py-2 md:px-5 hover:cursor-pointer hover:bg-custom-red hover:text-custom-white text-xs py-1.5 px-4">
-                <span>
-                  <FcGoogle />
-                </span>
-                Iniciar sesión con Google
-              </button>
+              <ButtonLogin loading={loading} name="Ingresar" />
+              <ButtonGoogle login={true} />
             </div>
           </Form>
         )}

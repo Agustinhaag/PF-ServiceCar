@@ -5,7 +5,9 @@ import "../styles/index.css";
 import Navbar from "@/components/navbar/Navbar";
 import Chat from "@/components/Chat";
 import Footer from "@/components/Footer";
-import { AuthProvider } from "@/context/AuthContext";
+import { Providers } from "@/redux/Providers";
+import { AuthProvider } from "@/redux/AuthProvider";
+import { ProviderNextAuth } from "@/components/ProviderNextAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,18 +22,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body
-          className={`${inter.className} bg-cover`}
-          style={{ backgroundImage: "url(/fondo2.png)" }}
-        >
-          <Navbar />
-          {children}
-          <Chat />
-          <Footer />
-        </body>
-      </html>
-    </AuthProvider>
+    <html lang="en">
+      <body
+        className={`${inter.className} bg-cover`}
+        style={{ backgroundImage: "url(/fondo2.png)" }}
+      >
+        <ProviderNextAuth>
+          <Providers>
+            <AuthProvider>
+              <Navbar />
+              {children}
+              <Chat />
+              <Footer />
+            </AuthProvider>
+          </Providers>
+        </ProviderNextAuth>
+      </body>
+    </html>
   );
 }

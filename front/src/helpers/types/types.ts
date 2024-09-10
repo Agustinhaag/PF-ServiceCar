@@ -1,24 +1,4 @@
 export interface BannerProps {
-<<<<<<< HEAD
-    img: string;
-    text: string;
-    title: string;
-  }
-
-export interface FormValues {
-  name: string,
-  email: string,
-  asunto: string,
-  message: string,
-}
-
-export interface UserSessionProps {
-  id: number;
-  name: string;
-  email: string;
-  address: string;
-  phone: string;
-=======
   img: string;
   text: string;
   title: string;
@@ -31,34 +11,25 @@ export interface FormValues {
   message: string;
 }
 
-export interface UserSessionProps {
-  // id: number;
-  // name: string;
-  // email: string;
-  // address: string;
-
->>>>>>> 5f782a3549ce3ef059f1b60b3dc39f00024feebb
+export interface TokenProps {
   token: string;
 }
 
 export interface ContextProps {
-  dataUser: UserSessionProps | null;
-  setDataUser: (dataUser: UserSessionProps | null) => void;
+  token: TokenProps | null;
+  setToken: (token: TokenProps | null) => void;
 }
 
-<<<<<<< HEAD
-export interface User {
-=======
 export interface IUser {
->>>>>>> 5f782a3549ce3ef059f1b60b3dc39f00024feebb
-  id: number;
+  id: string;
   name: string;
   email: string;
+  password: string;
   address: string;
-<<<<<<< HEAD
-  phone: string;
-}
-=======
+  image: string;
+  role: string;
+  status: string;
+  appointments?: [];
 }
 
 export interface IUserRegister {
@@ -85,8 +56,69 @@ export interface handleProp {
   textError: string;
 }
 
+export interface IAppointment {
+  user: string;
+  service: string[];
+  date: string;
+  time: string;
+  sucursal?: string;
+}
+
+export interface IAppointmentUser {
+  id: string;
+  date: string;
+  time: string;
+  status: string;
+  pago: string;
+  user: IUser;
+  sucursal: ISucursales;
+  service: IService[];
+}
+
+export interface handlePropAppointment {
+  values: IAppointment;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  url: string;
+  token: string;
+}
+
 export interface IUserLogin {
   email: string;
   password: string;
 }
->>>>>>> 5f782a3549ce3ef059f1b60b3dc39f00024feebb
+
+export interface IService {
+  id: string;
+  type: string;
+  description: string;
+  sucursales: string[];
+  image: string;
+  price: number;
+  status: string;
+  vehiculo: string;
+}
+export interface IOpinion {
+  estrellas: number;
+  nombre: string;
+  ocupacion: string;
+  opinion: string;
+  icono: string;
+}
+
+export interface IOpinionUser {
+  estrellas: number;
+  opinion: string;
+  date: string;
+  service: string;
+}
+
+export interface ISucursales {
+  id: string;
+  name: string;
+  address: string;
+  latitud: string;
+  longitud: string;
+  details: string;
+  services?: IService[];
+  status: string;
+}

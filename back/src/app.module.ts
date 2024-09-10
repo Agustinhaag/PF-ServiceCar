@@ -8,8 +8,12 @@ import dbConfig from './config/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppointmentsModule } from './appointments/appointments.module';
-
 import { config as dotenvConfig } from 'dotenv';
+import { ReviewsModule } from './reviews/reviews.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { MercadopagoModule } from './mercadopago/mercadopago.module';
+import { SucursalesModule } from './sucursales/sucursales.module';
 
 dotenvConfig({ path: '.env.development' });
 @Module({
@@ -24,18 +28,21 @@ dotenvConfig({ path: '.env.development' });
         return configService.get('typeorm');
       },
     }),
-    AuthModule, 
-    UsersModule, 
-    ServicesModule,
+    AuthModule,
+    UsersModule,
     AppointmentsModule,
+    ServicesModule,
+    ReviewsModule,
+    SucursalesModule,
     CloudinaryModule,
+    MercadopagoModule,
     JwtModule.register({
       global: true,
       signOptions: { expiresIn: '1h' },
       secret: process.env.JWT_SECRET,
     }),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

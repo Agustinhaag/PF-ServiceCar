@@ -20,6 +20,15 @@ export class AppointmentsController {
     return this.appointmentsService.findAll();
   }
 
+  @Get('user/:id')
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Obtener todas las citas de un usuario' })
+  @ApiResponse({ status: 200, description: 'Devuelve todas las citas de un usuario.', type: [Appointment] })
+  @ApiResponse({ status: 401, description: 'No autorizado.' })
+  async findAllByUser(@Param('id') id: string): Promise<Appointment[]> {
+    return this.appointmentsService.findAllByUser(id);
+  }
+
   @Get(':id')
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Obtener una cita por ID' })
@@ -34,13 +43,14 @@ export class AppointmentsController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Crear una nueva cita' })
   @ApiResponse({ status: 201, description: 'La cita ha sido creada exitosamente.', type: Appointment })
+  @ApiResponse({status:400, description:'Datos invalidos o la cita no cumple con las restricciones.'})
   @ApiResponse({ status: 401, description: 'No autorizado.' })
   async create(@Body() createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     return this.appointmentsService.create(createAppointmentDto);
   }
 
   @Put(':id')
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Actualizar una cita existente' })
   @ApiResponse({ status: 200, description: 'La cita ha sido actualizada exitosamente.', type: Appointment })
   @ApiResponse({ status: 401, description: 'No autorizado.' })
@@ -53,7 +63,7 @@ export class AppointmentsController {
   }
 
   @Delete(':id')
-  //@UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Eliminar una cita por ID' })
   @ApiResponse({ status: 204, description: 'La cita ha sido eliminada exitosamente.' })
   @ApiResponse({ status: 401, description: 'No autorizado.' })

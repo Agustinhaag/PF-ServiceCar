@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { handleProp } from "./types/types";
 
+
 export const handleSubmit = async ({
   setError,
   textError,
@@ -16,7 +17,6 @@ export const handleSubmit = async ({
       body: JSON.stringify(values),
     });
     const data = await response.json();
-console.log(data);
 
     if (response.ok) {
       Swal.fire({
@@ -33,3 +33,4 @@ console.log(data);
     setError(textError);
   }
 };
+
