@@ -1,9 +1,5 @@
 enum PATHROUTES {
-<<<<<<< HEAD
-  SERVICES = "/service",
-=======
   SERVICES = "/servicios",
->>>>>>> dev
   DASHBOARD = "/account",
   SUCURSALES = "/sucursales",
   LANDING = "/",
