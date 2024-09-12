@@ -6,11 +6,11 @@ const apiURL = process.env.NEXT_PUBLIC_URL;
 export const FetchServicio = async (): Promise<IService[] | undefined> => {
   try {
     const res = await fetch(`${apiURL}/services`, {
-      next: { revalidate: 3600 }, //opcion de revalidacion
+      next: { revalidate: 1800 }, //opcion de revalidacion
     });
     const servicios: IService[] = await res.json();
     return servicios;
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error al recuperar los servicios:', error);
    
   }

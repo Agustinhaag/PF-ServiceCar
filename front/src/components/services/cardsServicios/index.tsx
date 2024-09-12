@@ -3,7 +3,7 @@ import { IService } from "@/helpers/types/types";
 import ServiceCard from "../cardServicios";
 import Spinner from "@/components/spinner/Spinner";
 
-const Cards: React.FC<{ servicios: IService[] }> = ({ servicios }) => {
+const Cards: React.FC<{ servicios: IService[] | undefined}> = ({ servicios }) => {
   return (
     <div className="flex justify-center mb-5">
       {!servicios || servicios.length < 1 ? (

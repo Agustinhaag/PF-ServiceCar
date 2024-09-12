@@ -13,13 +13,13 @@ const UpdateReservations: React.FC<{
   appointment: IAppointmentUser;
   fetchAppointments: () => Promise<void>
 }> = ({ setViewIappointmentUpdate, viewIappointmentUpdate, appointment, fetchAppointments }) => {
-  const [servicios, setServicios] = useState<IService[]>([]);
+  const [servicios, setServicios] = useState<IService[] | undefined>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchedServicios = await FetchServicio();
-        setServicios(fetchedServicios!);
+        setServicios(fetchedServicios);
       } catch (error) {
         console.error("Error fetching servicios:", error);
       }

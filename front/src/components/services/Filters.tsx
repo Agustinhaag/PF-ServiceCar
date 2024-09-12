@@ -10,10 +10,10 @@ import { IService, ISucursales } from "@/helpers/types/types";
 import FilterOptions from "@/helpers/filtrado/filterOptiones";
 
 interface FiltersProps {
-  servicios: IService[];
+  servicios: IService[] | undefined;
   vehiculos: string[];
   ubicaciones: ISucursales[]; // Agrega el tipo para ubicaciones
-  setServiciosFiltrados: (servicios: IService[]) => void;
+  setServiciosFiltrados: (servicios: IService[] | undefined) => void;
   ordenPrecioAsc: () => void;
   ordenPrecioDesc: () => void;
 }

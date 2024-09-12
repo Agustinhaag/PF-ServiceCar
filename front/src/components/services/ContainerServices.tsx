@@ -11,8 +11,8 @@ import { filtrarServiciosPorSucursal } from "@/helpers/filtrado/filtrarServicios
 import Filters from "./Filters";
 
 const ContainerServices: React.FC = () => {
-  const [servicios, setServicios] = useState<IService[]>([]);
-  const [serviciosOrdenados, setServiciosOrdenados] = useState<IService[]>([]);
+  const [servicios, setServicios] = useState<IService[] | undefined>([]);
+  const [serviciosOrdenados, setServiciosOrdenados] = useState<IService[] | undefined>([]);
   const [vehiculos, setVehiculos] = useState<string[]>([]);
   const [ubicaciones, setUbicaciones] = useState<ISucursales[]>([]); // Agrega el estado para ubicaciones
 
@@ -21,12 +21,12 @@ const ContainerServices: React.FC = () => {
       try {
         const fetchedServicios = await FetchServicio();
         // Filtrar servicios activos
-        const serviciosActivos = fetchedServicios!.filter(servicio => servicio.status === "active");
+        const serviciosActivos = fetchedServicios && fetchedServicios.filter(servicio => servicio.status === "active");
         setServicios(serviciosActivos);
         setServiciosOrdenados(serviciosActivos);
 
         const vehiculosUnicos = Array.from(
-          new Set(serviciosActivos.flatMap((servicio) => servicio.vehiculo))
+          new Set(serviciosActivos && serviciosActivos.flatMap((servicio) => servicio.vehiculo))
         );
 
         setVehiculos(vehiculosUnicos);
@@ -43,16 +43,16 @@ const ContainerServices: React.FC = () => {
   }, []);
 
   const handleOrdenarPrecioAsc = () => {
-    setServiciosOrdenados(ordenarPrecioAsc(serviciosOrdenados));
+    setServiciosOrdenados(ordenarPrecioAsc(serviciosOrdenados!));
   };
 
   const handleOrdenarPrecioDesc = () => {
-    setServiciosOrdenados(ordernarPrecioDesc(serviciosOrdenados));
+    setServiciosOrdenados(ordernarPrecioDesc(serviciosOrdenados!));
   };
 
   const handleFilterChange = (ubicacionesSeleccionadas: ISucursales[], vehiculosSeleccionados: string[]) => {
     const serviciosFiltrados = filtrarServiciosPorSucursal(
-      servicios,
+       servicios,
       ubicacionesSeleccionadas.map(ubicacion => ubicacion.name).join(','), // Filtra por nombres de sucursales
       "",
       vehiculosSeleccionados

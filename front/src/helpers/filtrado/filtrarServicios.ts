@@ -1,14 +1,14 @@
 import { IService, ISucursales } from "@/helpers/types/types";
 
 export const filtrarServiciosPorSucursal = (
-  servicios: IService[],
+  servicios: IService[] | undefined,
   sucursalSeleccionada: string,
   palabraClave: string,
   vehiculosSeleccionados: string[]
-): IService[] => {
+): IService[] | undefined => {
   const palabraClaveNormalizada = palabraClave.toLowerCase();
 
-  return servicios.filter(servicio => {
+  return servicios && servicios.filter(servicio => {
    
     const esSucursalSeleccionada = sucursalSeleccionada === "" || 
       servicio.sucursales.includes(sucursalSeleccionada);
