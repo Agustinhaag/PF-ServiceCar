@@ -30,7 +30,7 @@ export const deleteAppointment = async (url: string, token: string) => {
 
     if (result.isConfirmed) {
       const response = await fetch(url, {
-        method: "DELETE",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

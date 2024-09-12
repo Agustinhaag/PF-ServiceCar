@@ -64,7 +64,7 @@ const Reservations: React.FC = () => {
 
   const handleDelete = async (appointmentId: string) => {
     try {
-      await deleteAppointment(`${url}/appointments/${appointmentId}`, token!);
+      await deleteAppointment(`${url}/appointments/status/${appointmentId}`, token!);
 
       fetchAppointments();
     } catch (error) {

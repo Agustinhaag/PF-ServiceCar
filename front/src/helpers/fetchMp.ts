@@ -7,6 +7,8 @@ export const fetchMp = async (
   id: string
 ) => {
   try {
+    console.log(service);
+    console.log(id);
     const res = await fetch(`${url}/mercadopago`, {
       method: "POST",
       headers: {
