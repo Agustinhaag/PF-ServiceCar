@@ -19,7 +19,7 @@ const UpdateReservations: React.FC<{
     const fetchData = async () => {
       try {
         const fetchedServicios = await FetchServicio();
-        setServicios(fetchedServicios);
+        setServicios(fetchedServicios!);
       } catch (error) {
         console.error("Error fetching servicios:", error);
       }

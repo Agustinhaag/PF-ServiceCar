@@ -21,7 +21,7 @@ const ContainerServices: React.FC = () => {
       try {
         const fetchedServicios = await FetchServicio();
         // Filtrar servicios activos
-        const serviciosActivos = fetchedServicios.filter(servicio => servicio.status === "active");
+        const serviciosActivos = fetchedServicios!.filter(servicio => servicio.status === "active");
         setServicios(serviciosActivos);
         setServiciosOrdenados(serviciosActivos);
 

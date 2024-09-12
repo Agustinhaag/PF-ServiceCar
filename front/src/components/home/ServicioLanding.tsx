@@ -12,7 +12,7 @@ const ServiciosLanding: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const fetchedServicios = await FetchServicio();
-      setServicios(fetchedServicios.slice(0, 4));
+      setServicios(fetchedServicios!.slice(0, 4));
     };
 
     fetchData();

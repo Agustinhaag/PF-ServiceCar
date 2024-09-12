@@ -13,7 +13,7 @@ const ServiceCall: React.FC = () => {
     const fetchData = async () => {
       try {
         const fetchServicios = await FetchServicio();
-        setServicios(fetchServicios);
+        setServicios(fetchServicios!);
       } catch (error) {
         console.error("Error fetching servicios:", error);
       }
