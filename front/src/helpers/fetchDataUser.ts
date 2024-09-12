@@ -6,7 +6,7 @@ export const fetchDataUserByID = async (
   token: string,
   url: string | undefined,
   id: string | unknown
-) => {
+): Promise<IUser | undefined> => {
   try {
     const response = await fetch(`${url}/users/${id}`, {
       headers: {
@@ -73,7 +73,7 @@ export const updateUser = async (
         text: data.message || "No se pudo editar el perfil.",
         icon: "error",
       });
-      return
+      return;
     }
   } catch (error: any) {
     setError(error.message);

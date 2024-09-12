@@ -3,15 +3,15 @@ import { IService, IServiceDto, ISucursales, ISucursalesDto } from "./types/type
 
 const apiURL = process.env.NEXT_PUBLIC_URL;
 
-export const FetchServicio = async () => {
+export const FetchServicio = async (): Promise<IService[] | undefined> => {
   try {
     const res = await fetch(`${apiURL}/services`, {
-      method: "GET",
       next: { revalidate: 3600 }, //opcion de revalidacion
     });
     const servicios: IService[] = await res.json();
     return servicios;
   } catch (error: any) {
+    console.error('Error al recuperar los servicios:', error);
     throw new Error(error);
   }
 };
