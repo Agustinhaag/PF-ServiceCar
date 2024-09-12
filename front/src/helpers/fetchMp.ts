@@ -7,6 +7,7 @@ export const fetchMp = async (
   id: string
 ) => {
   try {
+    
     const res = await fetch(`${url}/mercadopago`, {
       method: "POST",
       headers: {
@@ -23,7 +24,7 @@ export const fetchMp = async (
         idAppointment: id,
       }),
     });
-
+   
     const dataRes = await res.json();
     return dataRes;
   } catch (error) {
@@ -61,9 +62,9 @@ export const createPreference = async (
         text: `Por favor proceda al pago para confirmar la reserva.`,
         icon: "success",
       });
-      console.log(JSON.stringify(service, null, 2) + "     service");
+      console.log(service.type + "     service");
       const data = await fetchMp(url, service, appointmentRes.id);
-
+      
       return data;
     }
   } catch (error: any) {
