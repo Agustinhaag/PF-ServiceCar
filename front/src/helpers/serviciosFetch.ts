@@ -3,7 +3,7 @@ import { IService, IServiceDto, ISucursales, ISucursalesDto } from "./types/type
 
 const apiURL = process.env.NEXT_PUBLIC_URL;
 
-export const FetchServicio = async (): Promise<IService[] | undefined> => {
+export const FetchServicio = async (): Promise<IService[]> => {
   try {
     const res = await fetch(`${apiURL}/services`, {
       next: { revalidate: 3600 }, //opcion de revalidacion

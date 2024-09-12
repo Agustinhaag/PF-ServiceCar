@@ -6,7 +6,7 @@ export const fetchDataUserByID = async (
   token: string,
   url: string | undefined,
   id: string | unknown
-): Promise<IUser | undefined> => {
+): Promise<IUser> => {
   try {
     const response = await fetch(`${url}/users/${id}`, {
       headers: {
