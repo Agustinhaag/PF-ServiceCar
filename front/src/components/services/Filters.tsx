@@ -16,6 +16,9 @@ interface FiltersProps {
   setServiciosFiltrados: (servicios: IService[] | undefined) => void;
   ordenPrecioAsc: () => void;
   ordenPrecioDesc: () => void;
+  setOrdenamiento: (ordenamiento: string | null) => void; // Añadido
+  setSinCoincidencias: React.Dispatch<React.SetStateAction<boolean>>;
+  sinCoincidencias: boolean;
 }
 
 const Filters: React.FC<FiltersProps> = ({
@@ -25,12 +28,19 @@ const Filters: React.FC<FiltersProps> = ({
   setServiciosFiltrados,
   ordenPrecioAsc,
   ordenPrecioDesc,
+  setOrdenamiento,
+  setSinCoincidencias,
+  sinCoincidencias,
 }) => {
   const [mostrarOrdenOpciones, setMostrarOrdenOpciones] = useState(false);
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-  const [ubicacionesSeleccionadas, setUbicacionesSeleccionadas] = useState<ISucursales[]>([]);
-  const [vehiculosSeleccionados, setVehiculosSeleccionados] = useState<string[]>([]);
+  const [ubicacionesSeleccionadas, setUbicacionesSeleccionadas] = useState<
+    ISucursales[]
+  >([]);
+  const [vehiculosSeleccionados, setVehiculosSeleccionados] = useState<
+    string[]
+  >([]);
 
   const handleBusqueda = (event: React.ChangeEvent<HTMLInputElement>) => {
     const palabraClave = event.target.value;
@@ -38,26 +48,43 @@ const Filters: React.FC<FiltersProps> = ({
 
     const serviciosFiltrados = filtrarServiciosPorSucursal(
       servicios,
-      ubicacionesSeleccionadas.map(ubicacion => ubicacion.name).join(','), // Filtra por nombres de sucursales
+      ubicacionesSeleccionadas.map((ubicacion) => ubicacion.name), // Pasar el array de nombres de sucursales
       palabraClave,
       vehiculosSeleccionados
     );
 
     setServiciosFiltrados(serviciosFiltrados);
+    setSinCoincidencias(serviciosFiltrados.length === 0);
   };
 
-  const handleFilterChange = (ubicaciones: ISucursales[], vehiculos: string[]) => {
+  const handleFilterChange = (
+    ubicaciones: ISucursales[],
+    vehiculos: string[]
+  ) => {
     setUbicacionesSeleccionadas(ubicaciones);
     setVehiculosSeleccionados(vehiculos);
-    
+
     const serviciosFiltrados = filtrarServiciosPorSucursal(
       servicios,
-      ubicaciones.map(ubicacion => ubicacion.name).join(','), // Filtra por nombres de sucursales
+      ubicaciones.map((ubicacion) => ubicacion.name), // Pasar el array de nombres de sucursales
       busqueda,
       vehiculos
     );
 
     setServiciosFiltrados(serviciosFiltrados);
+    setSinCoincidencias(serviciosFiltrados.length === 0);
+  };
+
+  const handleOrdenarAsc = () => {
+    ordenPrecioAsc();
+    setOrdenamiento("Ascendente");
+    setMostrarOrdenOpciones(false);
+  };
+
+  const handleOrdenarDesc = () => {
+    ordenPrecioDesc();
+    setOrdenamiento("Descendente");
+    setMostrarOrdenOpciones(false);
   };
 
   return (
@@ -66,7 +93,10 @@ const Filters: React.FC<FiltersProps> = ({
         <div className="relative">
           <button
             className="flex gap-2 items-center font-semibold hover:bg-custom-white hover:text-custom-red text-custom-white rounded-md border bg-custom-red border-custom-red py-1.5 px-3"
-            onClick={() => setMostrarFiltros(!mostrarFiltros)}
+            onClick={() => {
+              setMostrarFiltros(!mostrarFiltros);
+              setMostrarOrdenOpciones(false);
+            }}
           >
             Filtrar
             <span>
@@ -77,12 +107,17 @@ const Filters: React.FC<FiltersProps> = ({
             mostrarFiltros={mostrarFiltros}
             vehiculos={vehiculos}
             onFilterChange={handleFilterChange}
+            setMostrarFiltros={setMostrarFiltros}
+            setOrdenamiento={setOrdenamiento} // Añadido
           />
         </div>
         <div className="relative">
           <button
             className="flex gap-2 min-w-40 items-center font-semibold hover:bg-custom-white hover:text-custom-red text-custom-white rounded-md border bg-custom-red border-custom-red py-1.5 px-3"
-            onClick={() => setMostrarOrdenOpciones(!mostrarOrdenOpciones)}
+            onClick={() => {
+              setMostrarOrdenOpciones(!mostrarOrdenOpciones);
+              setMostrarFiltros(false);
+            }}
           >
             Ordenar por
             <span className="text-xl">
@@ -93,6 +128,7 @@ const Filters: React.FC<FiltersProps> = ({
             <OrdenOpciones
               ordenPrecioAsc={ordenPrecioAsc}
               ordenPrecioDesc={ordenPrecioDesc}
+              setMostrarOrdenOpciones={setMostrarOrdenOpciones}
             />
           )}
         </div>

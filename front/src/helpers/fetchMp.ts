@@ -62,7 +62,6 @@ export const createPreference = async (
         text: `Por favor proceda al pago para confirmar la reserva.`,
         icon: "success",
       });
-      console.log(service.type + "     service");
       const data = await fetchMp(url, service, appointmentRes.id);
       
       return data;

@@ -1,5 +1,10 @@
 import Swal from "sweetalert2";
-import { IService, IServiceDto, ISucursales, ISucursalesDto } from "./types/types";
+import {
+  IService,
+  IServiceDto,
+  ISucursales,
+  ISucursalesDto,
+} from "./types/types";
 
 const apiURL = process.env.NEXT_PUBLIC_URL;
 
@@ -161,6 +166,7 @@ export const createSucursal = async (
       body: JSON.stringify(values),
     });
     const data = await response.json();
+
     if (response.ok) {
       Swal.fire({
         title: "Sucursal creada exitosamente",
@@ -179,7 +185,7 @@ export const editSucursal = async (
   token: string,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   values: ISucursalesDto,
-  id:string
+  id: string
 ) => {
   try {
     const response = await fetch(`${apiURL}/sucursales/${id}`, {
@@ -202,7 +208,6 @@ export const editSucursal = async (
   }
 };
 
-
 export const updateService = async (
   token: string,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
@@ -211,10 +216,10 @@ export const updateService = async (
 ) => {
   try {
     const response = await fetch(`${apiURL}/services/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     });
@@ -223,19 +228,50 @@ export const updateService = async (
 
     if (response.ok) {
       Swal.fire({
-        title: 'Servicio actualizado exitosamente',
-        text: 'Ya puede visualizar los cambios.',
-        icon: 'success',
+        title: "Servicio actualizado exitosamente",
+        text: "Ya puede visualizar los cambios.",
+        icon: "success",
       });
       return data;
     } else {
-      // Manejo de errores basados en el estado de respuesta
-      setError(data.message || 'Error al actualizar el servicio. Inténtalo de nuevo.');
+      setError(
+        data.message || "Error al actualizar el servicio. Inténtalo de nuevo."
+      );
       return null;
     }
   } catch (error: any) {
     console.log(error);
-    setError(error.message || 'Error de red. Inténtalo de nuevo.');
+    setError(error.message || "Error de red. Inténtalo de nuevo.");
     return null;
+  }
+};
+
+export const createService = async (
+  token: string,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  values: IServiceDto
+) => {
+  try {
+    const response = await fetch(`${apiURL}/services`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(values),
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      Swal.fire({
+        title: "Servicio creado exitosamente",
+        text: `Ya puede visualizarlo en su dashboard.`,
+        icon: "success",
+      });
+    }
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    setError(error);
   }
 };

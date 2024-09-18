@@ -4,6 +4,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Max,
   MaxLength,
   Min,
@@ -26,7 +27,11 @@ export class CreateReviewDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(20)
+  @MinLength(10)
   @MaxLength(400)
   comment: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  idService: string;
 }

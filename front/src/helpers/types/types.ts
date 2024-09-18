@@ -98,12 +98,12 @@ export interface IService {
   vehiculo: string;
 }
 
-export interface IServiceDto{
+export interface IServiceDto {
   type: string;
   description: string;
   price: number;
-  vehiculo: string,
-  sucursales: string[]
+  vehiculo: string;
+  sucursales: string[] | null;
 }
 
 export interface IOpinion {
@@ -115,10 +115,14 @@ export interface IOpinion {
 }
 
 export interface IOpinionUser {
-  estrellas: number;
-  opinion: string;
-  date: string;
-  service: string;
+  id: string;
+  rating: number;
+  user: any;
+  occupation: string;
+  comment: string;
+  status: string;
+  createdAt: string;
+  service: IService;
 }
 
 export interface ISucursales {
@@ -133,11 +137,20 @@ export interface ISucursales {
 }
 
 export interface ISucursalesDto {
-
   name: string;
   address: string;
   latitud: string;
   longitud: string;
   details: string;
-  
+}
+
+export interface IGraphicGral {
+  data: any[];
+  labels: string[];
+}
+
+export interface IGraphicUsers {
+  data: any[];
+  labels: string[];
+  label: string;
 }

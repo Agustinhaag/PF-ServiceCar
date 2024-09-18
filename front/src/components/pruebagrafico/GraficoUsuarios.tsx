@@ -1,9 +1,8 @@
 "use client"
 import { useRef, useEffect } from "react";
 import { Chart } from "chart.js/auto";
-import { valoresGrafico } from "../../helpers/pruebaGrafico";
 
-export default function PruebaGrafico() {
+export default function GraficoUsuarios({data}: any) {
     const chartRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -20,36 +19,15 @@ export default function PruebaGrafico() {
                 const chartInstance = new Chart(context, {
                     type: "bar",
                     data: {
-                        labels: valoresGrafico.labels,
+                        labels: data.labels,
                         datasets: [
                             {
-                                label: valoresGrafico.dataSucursales[0].label,
-                                data: valoresGrafico.dataSucursales[0].data,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
+                                label: data.label,
+                                data: data.data,
+                                backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                                borderColor: 'rgba(255, 215, 0, 1)',
                                 borderWidth: 1,
                             },
-                            {
-                                label: valoresGrafico.dataSucursales[1].label,
-                                data: valoresGrafico.dataSucursales[1].data,
-                                backgroundColor: 'rgba(75, 134, 34, 0.2)',
-                                borderColor: 'rgba(75, 134, 34, 1)',
-                                borderWidth: 1,
-                            },
-                            {
-                                label: valoresGrafico.dataSucursales[2].label,
-                                data: valoresGrafico.dataSucursales[2].data,
-                                backgroundColor: 'rgba(50, 50, 34, 0.2)',
-                                borderColor: 'rgba(50, 50, 34, 1)',
-                                borderWidth: 1,
-                            },
-                            {
-                                label: "Total",
-                                data: valoresGrafico.total,
-                                backgroundColor: 'rgba(50, 50, 34, 0.2)',
-                                borderColor: 'rgba(50, 50, 34, 1)',
-                                borderWidth: 1,
-                            }
                         ]
                     },
                     options: {

@@ -1,9 +1,10 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString, IsOptional, IsStrongPassword, IsUUID } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsString, IsOptional, IsStrongPassword, IsUUID, IsDate } from "class-validator";
 import { Appointment } from "../appointments/appointments.entity";
 import { Role } from "../auth/roles.enum";
 import { Status } from "../enum/status.enum";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import { Review } from "../reviews/reviews.entity";
 
 @Entity({ name: 'users' })
 export class User {
@@ -32,7 +33,6 @@ export class User {
     @IsOptional()
     address?: string;
 
-
     @Column({ default: 'https://res.cloudinary.com/dc8tneepi/image/upload/ztbuutsulfhoarq63xsh.jpg' })
     @IsString()
     @IsNotEmpty()
@@ -50,5 +50,13 @@ export class User {
     @IsEnum(Status)
     @IsNotEmpty()
     status: Status; 
+
+    @Column()
+    @IsDate()
+    @IsNotEmpty()
+    registerDate: Date;
+
+    @OneToMany(() => Review, (review) => review.user)
+    reviews: Review[];
 }
 
