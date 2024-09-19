@@ -47,8 +47,8 @@ const CardSucursales: React.FC = () => {
           <h3 className="text-2xl font-bold mb-4">{selectedSucursal.name}</h3>
           <p className="text-gray-400 mb-2">{selectedSucursal.address}</p>
           <p className="pb-4">{selectedSucursal.details}</p>
-          {/* Uncomment and configure the Map component as needed */}
-          {/* 
+          
+          
           <Map
             apiKey={apiKey!}
             center={{
@@ -64,7 +64,7 @@ const CardSucursales: React.FC = () => {
               },
             ]}
           />
-          */}
+          
         </div>
       ) : null}
     </div>
