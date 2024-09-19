@@ -17,7 +17,7 @@ import "../../styles/forms.css";
 
 const FormUpdateReservation: React.FC<{
   appointment: IAppointmentUser;
-  servicios: IService[] | undefined;
+  servicios: IService[];
   setViewIappointmentUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   fetchAppointments: () => Promise<void>;
 }> = ({
@@ -116,7 +116,7 @@ const FormUpdateReservation: React.FC<{
                 const selectedServiceId = e.target.value;
                 setSelectedService(selectedServiceId);
 
-                const service = servicios && servicios.find(
+                const service = servicios.find(
                   (service) => service.id === selectedServiceId
                 );
                 if (service) {
