@@ -13,7 +13,7 @@ const UpdateReservations: React.FC<{
   appointment: IAppointmentUser;
   fetchAppointments: () => Promise<void>
 }> = ({ setViewIappointmentUpdate, viewIappointmentUpdate, appointment, fetchAppointments }) => {
-  const [servicios, setServicios] = useState<IService[] | undefined>([]);
+  const [servicios, setServicios] = useState<IService[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,3 +67,4 @@ const UpdateReservations: React.FC<{
 };
 
 export default UpdateReservations;
+

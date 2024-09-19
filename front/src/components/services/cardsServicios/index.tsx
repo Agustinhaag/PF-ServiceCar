@@ -4,9 +4,7 @@ import ServiceCard from "../cardServicios";
 import Spinner from "@/components/spinner/Spinner";
 import NoResultados from "../NoResultado";
 
-<<<<<<< HEAD
-const Cards: React.FC<{ servicios: IService[] | undefined}> = ({ servicios }) => {
-=======
+
 const Cards: React.FC<{ servicios: IService[]; sinCoincidencias: boolean }> = ({
   servicios,
   sinCoincidencias,
@@ -14,7 +12,7 @@ const Cards: React.FC<{ servicios: IService[]; sinCoincidencias: boolean }> = ({
   if (sinCoincidencias) {
     return <NoResultados/>;
   }
->>>>>>> ff801641f5515df9f74b6bd8b4f79a20970c5eaa
+
   return (
     <div className="flex justify-center mb-5">
       {!servicios || servicios.length < 1 ? (

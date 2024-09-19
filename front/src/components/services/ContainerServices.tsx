@@ -13,8 +13,8 @@ import Filters from "./Filters";
 import NoResultados from "./NoResultado";
 
 const ContainerServices: React.FC = () => {
-  const [servicios, setServicios] = useState<IService[] | undefined>([]);
-  const [serviciosOrdenados, setServiciosOrdenados] = useState<IService[] | undefined>([]);
+  const [servicios, setServicios] = useState<IService[]>([]);
+  const [serviciosOrdenados, setServiciosOrdenados] = useState<IService[] >([]);
   const [vehiculos, setVehiculos] = useState<string[]>([]);
   const [ubicaciones, setUbicaciones] = useState<ISucursales[]>([]);
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
@@ -26,19 +26,14 @@ const ContainerServices: React.FC = () => {
     const fetchData = async () => {
       try {
         const fetchedServicios = await FetchServicio();
-<<<<<<< HEAD
-        // Filtrar servicios activos
-        const serviciosActivos = fetchedServicios && fetchedServicios.filter(servicio => servicio.status === "active");
-=======
         const serviciosActivos = fetchedServicios.filter(
           (servicio) => servicio.status === "active"
         );
->>>>>>> ff801641f5515df9f74b6bd8b4f79a20970c5eaa
         setServicios(serviciosActivos);
         setServiciosOrdenados(serviciosActivos);
 
         const vehiculosUnicos = Array.from(
-          new Set(serviciosActivos && serviciosActivos.flatMap((servicio) => servicio.vehiculo))
+          new Set(serviciosActivos.flatMap((servicio) => servicio.vehiculo))
         );
 
         setVehiculos(vehiculosUnicos);
@@ -57,13 +52,6 @@ const ContainerServices: React.FC = () => {
   }, []);
 
   const handleOrdenarPrecioAsc = () => {
-<<<<<<< HEAD
-    setServiciosOrdenados(ordenarPrecioAsc(serviciosOrdenados!));
-  };
-
-  const handleOrdenarPrecioDesc = () => {
-    setServiciosOrdenados(ordernarPrecioDesc(serviciosOrdenados!));
-=======
     setServiciosOrdenados(ordenarPrecioAsc(serviciosOrdenados));
     setOrdenamiento("Ascendente");
   };
@@ -71,7 +59,6 @@ const ContainerServices: React.FC = () => {
   const handleOrdenarPrecioDesc = () => {
     setServiciosOrdenados(ordernarPrecioDesc(serviciosOrdenados));
     setOrdenamiento("Descendente");
->>>>>>> ff801641f5515df9f74b6bd8b4f79a20970c5eaa
   };
 
   const handleEliminarOrdenamiento = () => {
@@ -84,19 +71,14 @@ const ContainerServices: React.FC = () => {
     vehiculosSeleccionados: string[]
   ) => {
     const serviciosFiltrados = filtrarServiciosPorSucursal(
-<<<<<<< HEAD
-       servicios,
-      ubicacionesSeleccionadas.map(ubicacion => ubicacion.name).join(','), // Filtra por nombres de sucursales
-=======
       servicios,
       ubicacionesSeleccionadas.map((ubicacion) => ubicacion.name), // Ahora es un array
->>>>>>> ff801641f5515df9f74b6bd8b4f79a20970c5eaa
       "",
       vehiculosSeleccionados
     );
-    setServiciosOrdenados(serviciosFiltrados);
+    setServiciosOrdenados(serviciosFiltrados!);
 
-    setSinResultados(serviciosFiltrados.length === 0);
+    setSinResultados(serviciosFiltrados!.length === 0);
   };
 
   return (
@@ -131,7 +113,10 @@ const ContainerServices: React.FC = () => {
         {sinResultados ? (
           <NoResultados />
         ) : (
-          <Cards servicios={serviciosOrdenados} sinCoincidencias={sinCoincidencias}/>
+          <Cards
+            servicios={serviciosOrdenados}
+            sinCoincidencias={sinCoincidencias}
+          />
         )}
       </section>
     </>

@@ -8,16 +8,16 @@ import {
 
 const apiURL = process.env.NEXT_PUBLIC_URL;
 
-export const FetchServicio = async (): Promise<IService[] | undefined> => {
+export const FetchServicio = async () => {
   try {
     const res = await fetch(`${apiURL}/services`, {
-      next: { revalidate: 1800 }, //opcion de revalidacion
+      method: "GET",
+      next: { revalidate: 3600 }, //opcion de revalidacion
     });
     const servicios: IService[] = await res.json();
     return servicios;
-  } catch (error) {
-    console.error('Error al recuperar los servicios:', error);
-   
+  } catch (error: any) {
+    throw new Error(error);
   }
 };
 

@@ -7,12 +7,12 @@ import Link from "next/link";
 import PATHROUTES from "@/helpers/PathRoutes";
 
 const ServiciosLanding: React.FC = () => {
-  const [servicios, setServicios] = useState<IService[] | undefined>([]);
+  const [servicios, setServicios] = useState<IService[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const fetchedServicios = await FetchServicio();
-      setServicios(fetchedServicios && fetchedServicios.slice(0, 4));
+      setServicios(fetchedServicios.slice(0, 4));
     };
 
     fetchData();
