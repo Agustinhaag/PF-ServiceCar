@@ -112,7 +112,7 @@ const Reservations: React.FC = () => {
                   key={reservation.id}
                   onDelete={() => handleDelete(reservation.id)}
                   fetchAppointments={fetchAppointments}
-                  cardPay={false}
+          
                 />
               ))}
             </div>
@@ -140,7 +140,7 @@ const Reservations: React.FC = () => {
                   key={reservation.id}
                   fetchAppointments={fetchAppointments}
                   onDelete={() => handleDelete(reservation.id)}
-                  cardPay={true}
+                 
                 />
               ))}
             </div>
