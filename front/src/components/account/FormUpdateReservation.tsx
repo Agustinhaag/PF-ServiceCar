@@ -1,6 +1,6 @@
 "use client";
 
-import { IAppointmentUser, IService } from "@/helpers/types/types";
+import { IAppointmentUser, IService, ISucursales } from "@/helpers/types/types";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
   getTomorrowDate,
@@ -9,11 +9,12 @@ import {
 } from "@/helpers/validateForms";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import PATHROUTES from "@/helpers/PathRoutes";
 import { updateAppointment } from "@/helpers/fetchReservations";
 import "../../styles/forms.css";
+import { FetchSucursales } from "@/helpers/serviciosFetch";
 
 const FormUpdateReservation: React.FC<{
   appointment: IAppointmentUser;
@@ -32,6 +33,7 @@ const FormUpdateReservation: React.FC<{
   const [sucursales, setSucursales] = useState<string[]>([]);
   const token = Cookies.get("token");
   const url = process.env.NEXT_PUBLIC_URL;
+  const [allSucursales, setAllSucursales] = useState<ISucursales[]>([]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -40,7 +42,17 @@ const FormUpdateReservation: React.FC<{
     const year = date.getFullYear();
     return `${year}-${month}-${day}`;
   };
-
+  useEffect(() => {
+    const fetchSucursales = async () => {
+      try {
+        const data = await FetchSucursales();
+        setAllSucursales(data);
+      } catch (error) {
+        console.error("Error fetching sucursales:", error);
+      }
+    };
+    fetchSucursales();
+  }, []);
   return (
     <Formik
       initialValues={{
@@ -161,14 +173,17 @@ const FormUpdateReservation: React.FC<{
                     label="Seleccione una sucursal"
                     className="bg-[#2b2b2b]"
                   />
-                  {sucursales.map((sucursal, index) => (
-                    <option
-                      key={index}
-                      value={sucursal}
-                      label={sucursal}
-                      className="bg-[#2b2b2b]"
-                    />
-                  ))}
+                  {allSucursales.map(
+                    (sucursal, index) =>
+                      sucursal.status === "active" && (
+                        <option
+                          key={index}
+                          value={sucursal.name}
+                          label={sucursal.name}
+                          className="bg-[#2b2b2b]"
+                        />
+                      )
+                  )}
                 </Field>
                 <span style={{ color: "red" }}>
                   <ErrorMessage name="sucursal" />
