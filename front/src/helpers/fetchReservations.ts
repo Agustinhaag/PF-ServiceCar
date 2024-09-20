@@ -36,7 +36,7 @@ export const deleteAppointment = async (url: string, token: string) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  console.log(response)
       if (response.ok) {
         Swal.fire({
           title: "Eliminado",
