@@ -14,13 +14,15 @@ const FormOpinion: React.FC<{
   const token = Cookies.get("token");
   const url = process.env.NEXT_PUBLIC_URL;
   const handleCreateOpinion = async (values: any) => {
-    const dataSend = {
+    const dataSend: any = {
       rating: Number(values.rating),
-      occupation: values.occupation,
       comment: values.comment,
       idService: service.id,
     };
-    console.log(service);
+
+    if (values.occupation) {
+      dataSend.occupation = values.occupation;
+    }
     try {
       const data = await createOpinion(url!, token!, dataSend);
       if (data) {

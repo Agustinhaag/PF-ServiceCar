@@ -63,7 +63,7 @@ const InfoAccount: React.FC = () => {
                 src={dataUser.image || "/userPerfil2.png"}
                 height={160}
                 width={160}
-                className="sm:w-36 w-28 rounded-full min-h-36 min-w-32"
+                className="sm:w-36 w-28 rounded-full min-h-36 min-w-32 max-h-40"
                 
                 key={dataUser.image}
               />
